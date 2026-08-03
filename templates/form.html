@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ "Editar ítem" if item else "Registrar ítem" }}</h2>
+
+  <form method="POST">
+    <label>Código</label>
+    <input type="text" name="codigo" value="{{ item.codigo if item else '' }}" required>
+
+    <label>Ítem</label>
+    <input type="text" name="item" value="{{ item.item if item else '' }}" required>
+
+    <label>Descripción</label>
+    <textarea name="descripcion" rows="3" required>{{ item.descripcion if item else '' }}</textarea>
+
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{ url_for('index') }}">Cancelar</a>
+  </form>
+{% endblock %}

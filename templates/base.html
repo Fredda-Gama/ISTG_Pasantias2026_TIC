@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Inventario ISTG - Prototipo</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f5f7; margin: 0; padding: 0; }
+  header { background: #1d3557; color: white; padding: 16px 32px; }
+  header h1 { margin: 0; font-size: 20px; }
+  main { max-width: 800px; margin: 24px auto; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e1e1e1; }
+  th { background: #f0f2f5; }
+  .btn { display: inline-block; padding: 8px 14px; border-radius: 4px; text-decoration: none; font-size: 14px; border: none; cursor: pointer; }
+  .btn-primary { background: #1d3557; color: white; }
+  .btn-edit { background: #e9c46a; color: #333; }
+  .btn-delete { background: #e63946; color: white; }
+  form.inline { display: inline; }
+  .flash { padding: 10px 14px; border-radius: 4px; margin-bottom: 12px; }
+  .flash.exito { background: #d4edda; color: #155724; }
+  .flash.error { background: #f8d7da; color: #721c24; }
+  input[type=text], textarea { width: 100%; padding: 8px; margin-top: 4px; margin-bottom: 14px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+  label { font-weight: bold; font-size: 14px; }
+</style>
+</head>
+<body>
+<header><h1>Inventario ISTG - Prototipo</h1></header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

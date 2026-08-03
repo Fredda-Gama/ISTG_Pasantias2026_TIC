@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <a class="btn btn-primary" href="{{ url_for('agregar') }}">+ Registrar ítem</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Ítem</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in items %}
+      <tr>
+        <td>{{ i.codigo }}</td>
+        <td>{{ i.item }}</td>
+        <td>{{ i.descripcion }}</td>
+        <td>
+          <a class="btn btn-edit" href="{{ url_for('editar', item_id=i.id) }}">Editar</a>
+          <form class="inline" method="POST" action="{{ url_for('eliminar', item_id=i.id) }}"
+                onsubmit="return confirm('¿Eliminar este ítem?');">
+            <button class="btn btn-delete" type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">No hay ítems registrados todavía.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
