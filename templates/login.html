@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;box-shadow:0 4px 24px rgba(43,108,176,.16);padding:44px 38px;width:100%;max-width:400px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#2B6CB0,#4299E1);display:inline-flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:18px;">📦</div>
+    <h2 style="color:#2B6CB0;font-size:20px;margin-bottom:4px;">Bienvenido</h2>
+    <p style="color:#718096;font-size:13px;margin-bottom:26px;">Sistema de Inventario ISTG<br>Campus Guayaquil</p>
+    <form method="POST">
+      <div style="margin-bottom:16px;text-align:left;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#2B6CB0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Correo institucional</label>
+        <input type="email" name="correo" placeholder="usuario@istg.edu.ec" required autofocus
+          style="width:100%;padding:10px 13px;border:1.5px solid #CBD5E0;border-radius:8px;font-size:13px;outline:none;">
+      </div>
+      <div style="margin-bottom:20px;text-align:left;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#2B6CB0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Contraseña</label>
+        <input type="password" name="password" placeholder="••••••••" required
+          style="width:100%;padding:10px 13px;border:1.5px solid #CBD5E0;border-radius:8px;font-size:13px;outline:none;">
+      </div>
+      <button class="btn btn-primary" type="submit"
+        style="width:100%;justify-content:center;padding:11px;font-size:14px;">
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

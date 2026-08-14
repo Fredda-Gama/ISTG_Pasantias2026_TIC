@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-bar" style="margin-bottom:20px;">
+  <div>
+    <div class="page-title">{{ '✏ Editar ítem' if item else '＋ Registrar nuevo ítem' }}</div>
+    <div class="page-sub">{{ 'Modifica los datos del bien seleccionado.' if item else 'Completa los campos para registrar un bien en el inventario.' }}</div>
+  </div>
+  <div class="action-group">
+    <a class="btn btn-cancel" href="{{ url_for('index') }}">← Volver al listado</a>
+  </div>
+</div>
+
+<div class="form-wrap">
+<form method="POST">
+  <div class="form-grid">
+    <div class="field"><label>Ubicación actual *</label>
+      <input type="text" name="ubicacion_actual" value="{{ item.ubicacion_actual if item else '' }}" required></div>
+    <div class="field"><label>Cantidad *</label>
+      <input type="number" name="cantidad" value="{{ item.cantidad if item else '1' }}" min="1" required></div>
+    <div class="field"><label>Código ISTG *</label>
+      <input type="text" name="codigo_istg" value="{{ item.codigo_istg if item else '' }}" placeholder="GYE-SRP-01-00001" required></div>
+    <div class="field"><label>Código SENESCYT</label>
+      <input type="text" name="codigo_senescyt" value="{{ item.codigo_senescyt if item else '' }}" placeholder="Opcional"></div>
+    <div class="field"><label>Tipo de bien *</label>
+      <input type="text" name="tipo_bien" value="{{ item.tipo_bien if item else '' }}" required></div>
+    <div class="field"><label>Marca</label>
+      <input type="text" name="marca" value="{{ item.marca if item else '' }}" placeholder="Ej: HP, Epson, S/N"></div>
+    <div class="field f-full"><label>Descripción del bien *</label>
+      <input type="text" name="descripcion_bien" value="{{ item.descripcion_bien if item else '' }}" required></div>
+    <div class="field"><label>Estado actual *</label>
+      <select name="estado_bien" required>
+        {% for e in ['Bueno','Regular','Malo','Desgastada - Regular','Dañado los brazos - Regular','Dañado por humedad','Bueno sin toner','Oxidado - Regular','Mal estado'] %}
+        <option value="{{ e }}" {{ 'selected' if item and item.estado_bien == e }}>{{ e }}</option>
+        {% endfor %}
+      </select></div>
+    <div class="field"><label>No. de Acta</label>
+      <input type="text" name="no_acta" value="{{ item.no_acta if item else '' }}" placeholder="2025-G-093"></div>
+    <div class="field f-full"><label>Gestor responsable *</label>
+      <input type="text" name="gestor_responsable" value="{{ item.gestor_responsable if item else '' }}" required></div>
+    <div class="field"><label>Custodio final</label>
+      <input type="text" name="custodio_final" value="{{ item.custodio_final if item else '' }}"></div>
+    <div class="field"><label>Cargo</label>
+      <input type="text" name="cargo" value="{{ item.cargo if item else '' }}"></div>
+    <div class="field f-full"><label>Observación</label>
+      <textarea name="observacion">{{ item.observacion if item else '' }}</textarea></div>
+  </div>
+  <div class="form-footer">
+    <button class="btn btn-primary" type="submit">
+      {{ '💾 Guardar cambios' if item else '✔ Registrar ítem' }}
+    </button>
+    <a class="btn btn-cancel" href="{{ url_for('index') }}">Cancelar</a>
+  </div>
+</form>
+</div>
+{% endblock %}

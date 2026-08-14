@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-bar">
+  <div>
+    <div class="page-title">📋 Inventario de Bienes</div>
+    <div class="page-sub">Constatación Física de Bienes · Campus Colegio Guayaquil</div>
+  </div>
+  <div class="action-group">
+    {% if rol in ['admin', 'pasante'] %}
+    <a class="btn btn-primary" href="{{ url_for('agregar') }}">＋ Registrar ítem</a>
+    {% endif %}
+    <a class="btn btn-export" href="{{ url_for('exportar_pdf') }}">⬇ Exportar PDF</a>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>#</th><th>Ubicación actual</th><th>Cant.</th><th>Cód. ISTG</th>
+      <th>Cód. SENESCYT</th><th>Tipo de bien</th><th>Descripción del bien</th>
+      <th>Marca</th><th>Estado</th><th>Gestor responsable</th>
+      <th>Custodio final</th><th>Cargo</th><th>No. Acta</th><th>Observación</th>
+      {% if rol in ['admin', 'pasante'] %}<th>Acciones</th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in items %}
+    <tr>
+      <td>{{ i.id }}</td>
+      <td>{{ i.ubicacion_actual }}</td>
+      <td style="text-align:center;">{{ i.cantidad }}</td>
+      <td><span class="cod">{{ i.codigo_istg }}</span></td>
+      <td style="font-size:11px;">{{ i.codigo_senescyt or '—' }}</td>
+      <td>{{ i.tipo_bien }}</td>
+      <td>{{ i.descripcion_bien }}</td>
+      <td>{{ i.marca or '—' }}</td>
+      <td>
+        {% set e = i.estado_bien | lower %}
+        {% if 'bueno' in e %}<span class="badge b-bueno">{{ i.estado_bien }}</span>
+        {% elif 'malo' in e or 'mal' in e or 'daña' in e %}<span class="badge b-malo">{{ i.estado_bien }}</span>
+        {% elif 'regular' in e or 'desgast' in e or 'oxid' in e %}<span class="badge b-regular">{{ i.estado_bien }}</span>
+        {% else %}<span class="badge b-otro">{{ i.estado_bien }}</span>{% endif %}
+      </td>
+      <td>{{ i.gestor_responsable }}</td>
+      <td>{{ i.custodio_final or '—' }}</td>
+      <td style="font-size:12px;">{{ i.cargo or '—' }}</td>
+      <td style="font-size:12px;color:var(--azul-oscuro);">{{ i.no_acta or '—' }}</td>
+      <td style="font-size:12px;color:var(--txt-suave);">{{ i.observacion or '—' }}</td>
+      {% if rol in ['admin', 'pasante'] %}
+      <td>
+        <a class="btn btn-edit" href="{{ url_for('editar', item_id=i.id) }}">✏ Editar</a>
+        {% if rol == 'admin' %}
+        <form class="inline" method="POST" action="{{ url_for('eliminar', item_id=i.id) }}"
+              onsubmit="return confirm('¿Seguro que deseas eliminar este ítem?');">
+          <button class="btn btn-del" type="submit">✕</button>
+        </form>
+        {% endif %}
+      </td>
+      {% endif %}
+    </tr>
+    {% else %}
+    <tr><td colspan="15" style="text-align:center;padding:40px;color:var(--txt-suave);">
+      No hay ítems registrados todavía.
+    </td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
