@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de bienes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-agregar { background-color: #4CAF50; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; }
+        .btn-logout { background-color: #f44336; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .acciones a, .acciones form { display: inline; }
+        .flash { padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        .flash.success { background-color: #d4edda; color: #155724; }
+        .flash.danger { background-color: #f8d7da; color: #721c24; }
+        .flash.info { background-color: #d1ecf1; color: #0c5460; }
+        .btn-editar { background-color: #007bff; color: white; padding: 4px 8px; text-decoration: none; border-radius: 4px; }
+        .btn-eliminar { background-color: #dc3545; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-eliminar:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bienes registrados</h1>
+        <div>
+            <span>Bienvenido, {{ session['correo'] }} ({{ session['rol'] }})</span>
+            <a href="/logout" class="btn-logout">Cerrar sesión</a>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <a href="/nuevo" class="btn-agregar">+ Agregar nuevo bien</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código ISTG</th>
+                    <th>Descripción</th>
+                    <th>Marca</th>
+                    <th>Estado</th>
+                    <th>Responsable</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.codigo_istg }}</td>
+                    <td>{{ item.descripcion_bien }}</td>
+                    <td>{{ item.marca }}</td>
+                    <td>{{ item.estado_bien }}</td>
+                    <td>{{ item.gestor_responsable }}</td>
+                    <td class="acciones">
+                        <a href="/editar/{{ item.id }}" class="btn-editar">Editar</a>
+                        <form method="POST" action="/eliminar/{{ item.id }}" style="display: inline;">
+                            <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar este bien?')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay bienes registrados.</p>
+    {% endif %}
+</body>
+</html>
